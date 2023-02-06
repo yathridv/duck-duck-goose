@@ -1,31 +1,47 @@
 import pandas as pd
-import csv
+import pathlib
 
-def get_goose_using_pandas(file_name):
+# Simple program to determine the 'goose' in a game of duck duck goose.
+# This program expects a csv file with two columns, 'name' and 'animal' and
+# exactly one record where the animal = 'goose'.
+
+def validate_dataframe(df):
+    """Raise an exception if the dataframe is not valid"""
+    if not 'animal' in df.columns: 
+        raise(Exception('Invalid file. Missing animal column.'))
+    
+    if not 'name' in df.columns: 
+        raise(Exception('Invalid file. Missing name column.'))
+    
+    if not 'goose' in df['animal'].values: 
+        raise(Exception('Invalid file. Must have exactly one goose record.'))
+
+    if not df['animal'].value_counts()['goose'] == 1: 
+        raise(Exception('Invalid file. Must have exactly one goose record.'))
+
+def get_goose(file_name : str) -> str:
+    """
+    Returns the name of the student from the csv file where animal = 'goose'
+    @param file_name : str - the name of the csv file to use
+  """
     class_df = pd.read_csv(file_name)
-    found_student_name = class_df.loc[class_df['animal'] == 'goose', 'name'].iloc[0]
-    return found_student_name
-
-def get_goose_using_csv(file_name):
-    student_name = ''
-    with open(file_name) as csv_file:
-        class_records = csv.DictReader(csv_file)
-        for student in class_records:
-            if student['animal'] == 'goose':
-                found_student_name = student['name']
-    return found_student_name
-
-CLASS_FILE = 'class.csv'
-options = ['csv','pandas']
-method = ''
-goose_name = ''
-
-while method not in options:
-    method = input(f'How would you like to load the data? (Options are {options}')
-
-if method == 'pandas':
-    goose_name = get_goose_using_pandas(CLASS_FILE)
-elif method == 'csv':
-    goose_name = get_goose_using_csv(CLASS_FILE)
-
-print(f'The goose is {goose_name}.')
+    validate_dataframe(class_df)
+    return class_df.loc[class_df['animal'] == 'goose', 'name'].iloc[0]
+    
+def run_game():
+    """Main rountine for the duck duck goose game."""
+    file_name = input('What is the input file name? ') # ask for the file name
+    filepath = pathlib.Path(file_name)
+    while not filepath.is_file():    # check that the file exists. 
+        file_name = input(f'Cloud not find a file named "{filepath}". What is the input file name? ') # keep asking
+        filepath = pathlib.Path(file_name)
+    
+    try:
+        goose_name = get_goose(filepath)
+        print(f'The goose is {goose_name}.')
+    except Exception as ex:
+        print(ex)
+    
+# run the main rountine
+if __name__ == '__main__':
+    run_game()
