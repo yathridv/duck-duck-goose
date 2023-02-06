@@ -62,10 +62,7 @@ In this case, we want the game to run when this script is being directly run by 
 
 ## Next Steps
 
-- Try adding more records to the csv file
-- Try changing which student is marked as the goose in the csv file
-- Try adding more than one goose to the csv file
-- Try having no records with 'goose' in the csv file (all ducks)
-- Try changing the column names in the csv file
-- Try creating a new csv file and using it with the program
-
+- Easy: Try changing which student is marked as the goose in the csv file
+- Medium: Try creating a new csv file and using it with the program
+- Medium: Try running the debugger and stepping through the program execution line by line
+- Hard: Try writing a new function to print a special message if the goose is 'John'
