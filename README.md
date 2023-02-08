@@ -60,7 +60,7 @@ This is the piece of the code that is actually executed when you run the file. `
 
 In this case, we want the game to run when this script is being directly run by the interpreter so we call the `run_game()` function.
 
-## Next Steps
+## Challenges
 
 - Easy: Try changing which student is marked as the goose in the csv file
 - Medium: Try creating a new csv file and using it with the program
